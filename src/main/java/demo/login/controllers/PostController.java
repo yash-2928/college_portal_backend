@@ -2,6 +2,7 @@ package demo.login.controllers;
 
 import demo.login.payload.response.PostResponse;
 import java.io.IOException;
+import java.security.InvalidKeyException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,11 +17,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import demo.login.data.Post;
 import demo.login.data.User;
 import demo.login.payload.request.PostRequest;
+import demo.login.repository.BlobStorageRepository;
 import demo.login.repository.PostRepository;
 import demo.login.repository.UserRepository;
 
@@ -34,6 +38,9 @@ public class PostController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    BlobStorageRepository blobStorageRepository;
+
     private PostResponse mapPostToPostResponse(Post post) {
         PostResponse postResponse = new PostResponse();
         postResponse.setPostId(post.getPostId());
@@ -44,15 +51,37 @@ public class PostController {
         postResponse.setPostType(post.getPostType());
         postResponse.setReported(post.getReported());
         postResponse.setComments(post.getComments());
+        postResponse.setFileUrl(post.getFileUrl());
         return postResponse;
     }
 
+    // @PostMapping("/post")
+    // public ResponseEntity<String> uplaodPost(@RequestBody PostRequest
+    // postRequest) throws IOException {
+    // User user = userRepository.findById(postRequest.getUserId()).get();
+    // Post post = new Post(user, postRequest.getPostTitle(),
+    // postRequest.getContent(), postRequest.getPostType());
+    // postRepository.save(post);
+    // return ResponseEntity.status(HttpStatus.CREATED).build();
+    // }
+
     @PostMapping("/post")
-    public ResponseEntity<String> uplaodPost(@RequestBody PostRequest postRequest) throws IOException {
-        User user = userRepository.findById(postRequest.getUserId()).get();
-        Post post = new Post(user, postRequest.getPostTitle(), postRequest.getContent(), postRequest.getPostType());
-        postRepository.save(post);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<String> testUpload(@RequestParam("userId") Long userId,
+            @RequestParam("postTitle") String postTitle, @RequestParam("postContent") String postContent,
+            @RequestParam("file") MultipartFile file) {
+        String fileType = file.getContentType();
+        String filename = file.getOriginalFilename();
+        try {
+            byte[] fileBytes = file.getBytes();
+            String fileUrl = blobStorageRepository.uploadFile("postdocuments", filename, fileBytes);
+            User user = userRepository.findById(userId).get();
+            Post post = new Post(user, postTitle, postContent, fileType, fileUrl);
+            postRepository.save(post);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (IOException | InvalidKeyException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("/posts")

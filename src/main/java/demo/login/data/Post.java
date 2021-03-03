@@ -26,8 +26,8 @@ public class Post {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @Column(nullable = true, length = 64)
-    private String photos;
+    @Column(nullable = true)
+    private String fileUrl;
     private String postTitle;
     private String postType;
     private String content;
@@ -43,11 +43,12 @@ public class Post {
     public Post() {
     }
 
-    public Post(User user, String postTitle, String content, String photos) {
+    public Post(User user, String postTitle, String content, String postType, String fileUrl) {
         this.user = user;
         this.postTitle = postTitle;
         this.content = content;
-        this.photos = photos;
+        this.postType = postType;
+        this.fileUrl = fileUrl;
         // this.postType = postType;
         this.postDate = Date.from(Instant.now());
         this.reported = false;
@@ -101,14 +102,6 @@ public class Post {
         this.reported = reported;
     }
 
-    public String getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(String photos) {
-        this.photos = photos;
-    }
-
     public User getUser() {
         return user;
     }
@@ -123,5 +116,13 @@ public class Post {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 }

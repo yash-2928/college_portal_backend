@@ -15,6 +15,7 @@ public class PostResponse {
     private Date postDate;
     private Boolean reported;
     private List<Comment> comments;
+    private String fileUrl;
 
     public Long getPostId() {
         return postId;
@@ -78,6 +79,14 @@ public class PostResponse {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
 }
