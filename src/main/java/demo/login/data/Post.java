@@ -49,7 +49,6 @@ public class Post {
         this.content = content;
         this.postType = postType;
         this.fileUrl = fileUrl;
-        // this.postType = postType;
         this.postDate = Date.from(Instant.now());
         this.reported = false;
     }

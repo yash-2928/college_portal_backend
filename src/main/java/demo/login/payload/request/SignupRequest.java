@@ -3,6 +3,8 @@ package demo.login.payload.request;
 import java.util.Date;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.lang.NonNull;
 
 public class SignupRequest {
@@ -17,6 +19,7 @@ public class SignupRequest {
     private String gender;
     private Date dateOfBirth;
 
+    @JsonIgnore
     private Set<String> role;
 
     @NonNull

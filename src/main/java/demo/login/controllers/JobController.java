@@ -1,6 +1,5 @@
 package demo.login.controllers;
 
-import demo.login.payload.response.PostResponse;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.util.List;
@@ -20,18 +19,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import demo.login.data.Post;
+import demo.login.data.Job;
 import demo.login.data.User;
+import demo.login.payload.response.JobResponse;
 import demo.login.repository.BlobStorageRepository;
-import demo.login.repository.PostRepository;
+import demo.login.repository.JobRepository;
 import demo.login.repository.UserRepository;
 
 @RestController
 @RequestMapping(path = "/api")
 @CrossOrigin(origins = "*")
-public class PostController {
+public class JobController {
+    
     @Autowired
-    PostRepository postRepository;
+    JobRepository jobRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -39,18 +40,19 @@ public class PostController {
     @Autowired
     BlobStorageRepository blobStorageRepository;
 
-    private PostResponse mapPostToPostResponse(Post post) {
-        PostResponse postResponse = new PostResponse();
-        postResponse.setPostId(post.getPostId());
-        postResponse.setContent(post.getContent());
-        postResponse.setPostDate(post.getPostDate());
-        postResponse.setUser(post.getUser());
-        postResponse.setPostTitle(post.getPostTitle());
-        postResponse.setPostType(post.getPostType());
-        postResponse.setReported(post.getReported());
-        postResponse.setComments(post.getComments());
-        postResponse.setFileUrl(post.getFileUrl());
-        return postResponse;
+    private JobResponse mapJobToJobResponse(Job job) {
+        JobResponse jobResponse = new JobResponse();
+        jobResponse.setJobId(job.getJobId());
+        jobResponse.setContent(job.getContent());
+        jobResponse.setJobDate(job.getJobDate());
+        jobResponse.setUser(job.getUser());
+        jobResponse.setJobTitle(job.getJobTitle());
+        jobResponse.setLink(job.getLink());
+        jobResponse.setCompanyName(job.getCompanyName());
+        jobResponse.setReported(job.getReported());
+        jobResponse.setComments(job.getComments());
+        jobResponse.setFileUrl(job.getFileUrl());
+        return jobResponse;
     }
 
     // @PostMapping("/post")
@@ -63,9 +65,10 @@ public class PostController {
     // return ResponseEntity.status(HttpStatus.CREATED).build();
     // }
 
-    @PostMapping("/post")
+    @PostMapping("/job")
     public ResponseEntity<String> testUpload(@RequestParam("userId") Long userId,
-            @RequestParam("postTitle") String postTitle, @RequestParam("postContent") String postContent,
+            @RequestParam("jobTitle") String jobTitle, @RequestParam("jobContent") String jobContent,
+            @RequestParam("link") String link, @RequestParam("companyName") String companyName,
             @RequestParam("file") MultipartFile file) {
         String fileType = file.getContentType();
         String filename = file.getOriginalFilename();
@@ -73,39 +76,38 @@ public class PostController {
             byte[] fileBytes = file.getBytes();
             String fileUrl = blobStorageRepository.uploadFile("postdocuments", filename, fileBytes);
             User user = userRepository.findById(userId).get();
-            Post post = new Post(user, postTitle, postContent, fileType, fileUrl);
-            postRepository.save(post);
+            Job job = new Job(user, jobTitle, jobContent, link, companyName, fileType, fileUrl);
+            jobRepository.save(job);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (IOException | InvalidKeyException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-    @GetMapping("/posts")
-    public List<PostResponse> getPosts() {
-        List<Post> posts = postRepository.findAll();
-        posts.sort((a, b) -> b.getPostDate().compareTo(a.getPostDate()));
-        return posts.stream().map(post -> mapPostToPostResponse(post)).collect(Collectors.toList());
+    @GetMapping("/jobs")
+    public List<JobResponse> getJobs() {
+        List<Job> jobs = jobRepository.findAll();
+        jobs.sort((a, b) -> b.getJobDate().compareTo(a.getJobDate()));
+        return jobs.stream().map(Job -> mapJobToJobResponse(Job)).collect(Collectors.toList());
     }
 
-    @GetMapping("/posts/{id}")
-    public ResponseEntity<PostResponse> getPost(@PathVariable Long id) {
-        Optional<Post> postOptional = postRepository.findById(id);
-        if (postOptional.isPresent()) {
-            return ResponseEntity.ok(mapPostToPostResponse(postOptional.get()));
+    @GetMapping("/jobs/{id}")
+    public ResponseEntity<JobResponse> getJob(@PathVariable Long id) {
+        Optional<Job> jobOptional = jobRepository.findById(id);
+        if (jobOptional.isPresent()) {
+            return ResponseEntity.ok(mapJobToJobResponse(jobOptional.get()));
         }
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/posts/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable Long id) {
+    @DeleteMapping("/jobs/{id}")
+    public ResponseEntity<String> deleteJob(@PathVariable Long id) {
         try {
-            postRepository.deleteById(id);
+            jobRepository.deleteById(id);
             return ResponseEntity.accepted().build();
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
-
 }
+
