@@ -30,7 +30,7 @@ import demo.login.repository.UserRepository;
 @RequestMapping(path = "/api")
 @CrossOrigin(origins = "*")
 public class JobController {
-    
+
     @Autowired
     JobRepository jobRepository;
 
@@ -69,12 +69,10 @@ public class JobController {
     public ResponseEntity<String> testUpload(@RequestParam("userId") Long userId,
             @RequestParam("jobTitle") String jobTitle, @RequestParam("jobContent") String jobContent,
             @RequestParam("link") String link, @RequestParam("companyName") String companyName,
-            @RequestParam("file") MultipartFile file) {
-        String fileType = file.getContentType();
-        String filename = file.getOriginalFilename();
+            @RequestParam(name = "file", required = false) MultipartFile file) {
         try {
-            byte[] fileBytes = file.getBytes();
-            String fileUrl = blobStorageRepository.uploadFile("postdocuments", filename, fileBytes);
+            String fileType = file == null ? null : file.getContentType();
+            String fileUrl = blobStorageRepository.uploadFile("postdocuments", file);
             User user = userRepository.findById(userId).get();
             Job job = new Job(user, jobTitle, jobContent, link, companyName, fileType, fileUrl);
             jobRepository.save(job);
@@ -84,6 +82,7 @@ public class JobController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
     @GetMapping("/jobs")
     public List<JobResponse> getJobs() {
         List<Job> jobs = jobRepository.findAll();
@@ -110,4 +109,3 @@ public class JobController {
         }
     }
 }
-

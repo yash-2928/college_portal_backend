@@ -17,7 +17,7 @@ public class UserDetailsImp implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
-    private Long enrollmentNo;
+    private Long userId;
     private String email;
 
     @JsonIgnore
@@ -25,9 +25,9 @@ public class UserDetailsImp implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImp(Long enrollmentNo, String email, String password,
+    public UserDetailsImp(Long userId, String email, String password,
             Collection<? extends GrantedAuthority> authorities) {
-        this.enrollmentNo = enrollmentNo;
+        this.userId = userId;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
@@ -37,20 +37,12 @@ public class UserDetailsImp implements UserDetails {
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
 
-        return new UserDetailsImp(user.getEnrollmentNo(), user.getEmail(), user.getPassword(), authorities);
+        return new UserDetailsImp(user.getId(), user.getEmail(), user.getPassword(), authorities);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
-    }
-
-    public Long getEnrollmentNo() {
-        return enrollmentNo;
-    }
-
-    public String getUsername() {
-        return email;
     }
 
     @Override
@@ -86,5 +78,18 @@ public class UserDetailsImp implements UserDetails {
             return false;
         UserDetailsImp user = (UserDetailsImp) o;
         return Objects.equals(email, user.email);
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 }

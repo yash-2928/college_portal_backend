@@ -18,8 +18,6 @@ public class SignupRequest {
     private String lastname;
     private String gender;
     private Date dateOfBirth;
-
-    @JsonIgnore
     private Set<String> role;
 
     @NonNull

@@ -66,12 +66,10 @@ public class PostController {
     @PostMapping("/post")
     public ResponseEntity<String> testUpload(@RequestParam("userId") Long userId,
             @RequestParam("postTitle") String postTitle, @RequestParam("postContent") String postContent,
-            @RequestParam("file") MultipartFile file) {
-        String fileType = file.getContentType();
-        String filename = file.getOriginalFilename();
+            @RequestParam(name = "file", required = false) MultipartFile file) {
         try {
-            byte[] fileBytes = file.getBytes();
-            String fileUrl = blobStorageRepository.uploadFile("postdocuments", filename, fileBytes);
+            String fileType = file == null ? null : file.getContentType();
+            String fileUrl = blobStorageRepository.uploadFile("postdocuments", file);
             User user = userRepository.findById(userId).get();
             Post post = new Post(user, postTitle, postContent, fileType, fileUrl);
             postRepository.save(post);

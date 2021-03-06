@@ -5,7 +5,7 @@ import demo.login.payload.request.SignupRequest;
 import demo.login.payload.response.JwtResponse;
 import demo.login.payload.response.MessageResponse;
 
-import java.util.*;																																																																																													
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -64,8 +64,7 @@ public class AuthController {
 				.filter(authority -> ERole.valueOf(authority.getAuthority()).equals(ERole.ROLE_ADMIN)).findAny()
 				.isPresent();
 
-		return ResponseEntity
-				.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getEnrollmentNo(), isAdmin));
+		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getUserId(), isAdmin));
 	}
 
 	@PostMapping("/signup")

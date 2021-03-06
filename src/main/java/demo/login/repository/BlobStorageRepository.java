@@ -1,6 +1,7 @@
 package demo.login.repository;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 
 import com.azure.storage.blob.BlobClient;
@@ -11,6 +12,7 @@ import com.azure.storage.common.StorageSharedKeyCredential;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 @Repository
 public class BlobStorageRepository {
@@ -21,7 +23,13 @@ public class BlobStorageRepository {
     @Value("${blobstorage.account.key}")
     private String storageAccountKey;
 
-    public String uploadFile(String containerName, String filename, byte[] fileBytes) throws InvalidKeyException {
+    public String uploadFile(String containerName, MultipartFile file) throws InvalidKeyException, IOException {
+        if (file == null) {
+            return null;
+        }
+
+        String filename = file.getOriginalFilename();
+        byte[] fileBytes = file.getBytes();
         StorageSharedKeyCredential credential = new StorageSharedKeyCredential(this.storageAccountName,
                 this.storageAccountKey);
         BlobServiceClient blobServiceClient = new BlobServiceClientBuilder()
