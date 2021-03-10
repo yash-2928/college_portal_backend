@@ -4,9 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import com.azure.core.annotation.Delete;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -42,8 +39,12 @@ public class UserController {
         userResponse.setEnrollmentNo(user.getEnrollmentNo());
         userResponse.setFirstname(user.getFirstname());
         userResponse.setLastname(user.getLastname());
+        userResponse.setBranch(user.getBranch());
+        userResponse.setCourse(user.getCourse());
+        userResponse.setPassoutYear(user.getPassoutYear());
         userResponse.setGender(user.getGender());
         userResponse.setPhoneNumber(user.getPhoneNumber());
+        userResponse.setFileurl(user.getFileurl());
         return userResponse;
     }
 

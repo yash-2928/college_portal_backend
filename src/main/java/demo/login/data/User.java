@@ -30,9 +30,14 @@ public class User {
     private Long phoneNumber;
     private String firstname;
     private String lastname;
+    private String course;
+    private String branch;
+    private String passoutYear;
     private String gender;
     private Date dateOfBirth;
     private String password;
+
+    private String fileurl;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
@@ -146,4 +151,45 @@ public class User {
         this.comments = comments;
     }
 
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    public String getPassoutYear() {
+        return passoutYear;
+    }
+
+    public void setPassoutYear(String passoutYear) {
+        this.passoutYear = passoutYear;
+    }
+
+    public String getFileurl() {
+        return fileurl;
+    }
+
+    public void setFileurl(String fileurl) {
+        this.fileurl = fileurl;
+    }
+
+    public List<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(List<Report> reports) {
+        this.reports = reports;
+    }
+
+    
 }

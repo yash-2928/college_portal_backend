@@ -10,6 +10,10 @@ public class UserResponse {
     private Long phoneNumber;
     private String firstname;
     private String lastname;
+    private String course;
+    private String branch;
+    private String passoutYear;
+    private String fileurl;
     private String gender;
     private Date dateOfBirth;
 
@@ -76,5 +80,39 @@ public class UserResponse {
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    public String getPassoutYear() {
+        return passoutYear;
+    }
+
+    public void setPassoutYear(String passoutYear) {
+        this.passoutYear = passoutYear;
+    }
+
+    public String getFileurl() {
+        return fileurl;
+    }
+
+    public void setFileurl(String fileurl) {
+        this.fileurl = fileurl;
+    }
+
+    
 
 }

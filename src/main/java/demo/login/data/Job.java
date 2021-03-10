@@ -32,7 +32,7 @@ public class Job {
     private String companyName;
     private String jobTitle;
     private String content;
-    private String fileType;
+    private String postType;
 
     private Date jobDate;
     private Boolean reported;
@@ -46,14 +46,14 @@ public class Job {
     public Job() {
     }
 
-	public Job(User user, String jobTitle, String content, String link, String companyName, String fileType,
+	public Job(User user, String jobTitle, String content, String link, String companyName, String postType,
 			String fileUrl) {
                 this.user = user;
                 this.jobTitle = jobTitle;
                 this.content = content;
                 this.link = link;
                 this.companyName = companyName;
-                this.fileType = fileType;
+                this.postType = postType;
                 this.fileUrl = fileUrl;
                 this.jobDate = Date.from(Instant.now());
                 this.reported = false;
@@ -148,10 +148,10 @@ public class Job {
     }
 
     public String getFileType() {
-        return fileType;
+        return postType;
     }
 
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
+    public void setFileType(String postType) {
+        this.postType = postType;
     }
 }

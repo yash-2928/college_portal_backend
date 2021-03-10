@@ -53,16 +53,6 @@ public class PostController {
         return postResponse;
     }
 
-    // @PostMapping("/post")
-    // public ResponseEntity<String> uplaodPost(@RequestBody PostRequest
-    // postRequest) throws IOException {
-    // User user = userRepository.findById(postRequest.getUserId()).get();
-    // Post post = new Post(user, postRequest.getPostTitle(),
-    // postRequest.getContent(), postRequest.getPostType());
-    // postRepository.save(post);
-    // return ResponseEntity.status(HttpStatus.CREATED).build();
-    // }
-
     @PostMapping("/post")
     public ResponseEntity<String> testUpload(@RequestParam("userId") Long userId,
             @RequestParam("postTitle") String postTitle, @RequestParam("postContent") String postContent,
