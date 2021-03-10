@@ -40,20 +40,8 @@ public class JobController {
     @Autowired
     BlobStorageRepository blobStorageRepository;
 
-    private JobResponse mapJobToJobResponse(Job job) {
-        JobResponse jobResponse = new JobResponse();
-        jobResponse.setJobId(job.getJobId());
-        jobResponse.setContent(job.getContent());
-        jobResponse.setJobDate(job.getJobDate());
-        jobResponse.setUser(job.getUser());
-        jobResponse.setJobTitle(job.getJobTitle());
-        jobResponse.setLink(job.getLink());
-        jobResponse.setCompanyName(job.getCompanyName());
-        jobResponse.setReported(job.getReported());
-        jobResponse.setComments(job.getComments());
-        jobResponse.setFileUrl(job.getFileUrl());
-        return jobResponse;
-    }
+    @Autowired
+    CommonService commonService;
 
     // @PostMapping("/post")
     // public ResponseEntity<String> uplaodPost(@RequestBody PostRequest
@@ -87,14 +75,14 @@ public class JobController {
     public List<JobResponse> getJobs() {
         List<Job> jobs = jobRepository.findAll();
         jobs.sort((a, b) -> b.getJobDate().compareTo(a.getJobDate()));
-        return jobs.stream().map(Job -> mapJobToJobResponse(Job)).collect(Collectors.toList());
+        return jobs.stream().map(commonService::mapJobToJobResponse).collect(Collectors.toList());
     }
 
     @GetMapping("/jobs/{id}")
     public ResponseEntity<JobResponse> getJob(@PathVariable Long id) {
         Optional<Job> jobOptional = jobRepository.findById(id);
         if (jobOptional.isPresent()) {
-            return ResponseEntity.ok(mapJobToJobResponse(jobOptional.get()));
+            return ResponseEntity.ok(commonService.mapJobToJobResponse(jobOptional.get()));
         }
         return ResponseEntity.notFound().build();
     }

@@ -39,19 +39,8 @@ public class PostController {
     @Autowired
     BlobStorageRepository blobStorageRepository;
 
-    private PostResponse mapPostToPostResponse(Post post) {
-        PostResponse postResponse = new PostResponse();
-        postResponse.setPostId(post.getPostId());
-        postResponse.setContent(post.getContent());
-        postResponse.setPostDate(post.getPostDate());
-        postResponse.setUser(post.getUser());
-        postResponse.setPostTitle(post.getPostTitle());
-        postResponse.setPostType(post.getPostType());
-        postResponse.setReported(post.getReported());
-        postResponse.setComments(post.getComments());
-        postResponse.setFileUrl(post.getFileUrl());
-        return postResponse;
-    }
+    @Autowired
+    CommonService commonService;
 
     @PostMapping("/post")
     public ResponseEntity<String> testUpload(@RequestParam("userId") Long userId,
@@ -70,18 +59,25 @@ public class PostController {
         }
     }
 
+    @GetMapping("/users/{id}/posts")
+    public List<PostResponse> getPostsByUserId(@PathVariable(name = "id") Long id) {
+        User user = userRepository.findById(id).get();
+        List<Post> posts = postRepository.findAllByUser(user);
+        return posts.stream().map(commonService::mapPostToPostResponse).collect(Collectors.toList());
+    }
+
     @GetMapping("/posts")
     public List<PostResponse> getPosts() {
         List<Post> posts = postRepository.findAll();
         posts.sort((a, b) -> b.getPostDate().compareTo(a.getPostDate()));
-        return posts.stream().map(post -> mapPostToPostResponse(post)).collect(Collectors.toList());
+        return posts.stream().map(commonService::mapPostToPostResponse).collect(Collectors.toList());
     }
 
     @GetMapping("/posts/{id}")
     public ResponseEntity<PostResponse> getPost(@PathVariable Long id) {
         Optional<Post> postOptional = postRepository.findById(id);
         if (postOptional.isPresent()) {
-            return ResponseEntity.ok(mapPostToPostResponse(postOptional.get()));
+            return ResponseEntity.ok(commonService.mapPostToPostResponse(postOptional.get()));
         }
         return ResponseEntity.notFound().build();
     }

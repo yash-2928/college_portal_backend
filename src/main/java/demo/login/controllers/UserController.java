@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import demo.login.data.ERole;
 import demo.login.data.Role;
-import demo.login.data.User;
 import demo.login.payload.response.UserResponse;
 import demo.login.repository.RoleRepository;
 import demo.login.repository.UserRepository;
@@ -29,30 +28,16 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private CommonService commonService;
 
-    private UserResponse mapUserToUserResponse(User user) {
-        UserResponse userResponse = new UserResponse();
-        userResponse.setId(user.getId());
-        userResponse.setEmail(user.getEmail());
-        userResponse.setDateOfBirth(user.getDateOfBirth());
-        userResponse.setEnrollmentNo(user.getEnrollmentNo());
-        userResponse.setFirstname(user.getFirstname());
-        userResponse.setLastname(user.getLastname());
-        userResponse.setBranch(user.getBranch());
-        userResponse.setCourse(user.getCourse());
-        userResponse.setPassoutYear(user.getPassoutYear());
-        userResponse.setGender(user.getGender());
-        userResponse.setPhoneNumber(user.getPhoneNumber());
-        userResponse.setFileurl(user.getFileurl());
-        return userResponse;
-    }
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping("/users")
     public List<UserResponse> getUsers() {
         Set<Role> roles = Arrays.asList(ERole.ROLE_USER).stream().map(eRole -> roleRepository.findByName(eRole).get())
                 .collect(Collectors.toSet());
-        return userRepository.findAllByRolesIn(roles).stream().map(this::mapUserToUserResponse)
+        return userRepository.findAllByRolesIn(roles).stream().map(commonService::mapUserToUserResponse)
                 .collect(Collectors.toList());
     }
 

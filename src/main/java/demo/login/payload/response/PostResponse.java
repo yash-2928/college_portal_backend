@@ -4,11 +4,10 @@ import java.util.Date;
 import java.util.List;
 
 import demo.login.data.Comment;
-import demo.login.data.User;
 
 public class PostResponse {
     private Long postId;
-    private User user;
+    private UserResponse user;
     private String postTitle;
     private String postType;
     private String content;
@@ -65,11 +64,11 @@ public class PostResponse {
         this.reported = reported;
     }
 
-    public User getUser() {
+    public UserResponse getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserResponse user) {
         this.user = user;
     }
 

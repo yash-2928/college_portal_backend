@@ -4,11 +4,10 @@ import java.util.*;
 import java.util.List;
 
 import demo.login.data.Comment;
-import demo.login.data.User;
 
 public class JobResponse {
     private Long jobId;
-    private User user;
+    private UserResponse user;
     private String jobTitle;
     private String link;
     private String companyName;
@@ -26,11 +25,11 @@ public class JobResponse {
         this.jobId = jobId;
     }
 
-    public User getUser() {
+    public UserResponse getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserResponse user) {
         this.user = user;
     }
 
