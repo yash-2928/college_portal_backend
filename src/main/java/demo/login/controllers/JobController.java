@@ -96,4 +96,11 @@ public class JobController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/users/{id}/jobs")
+    public List<JobResponse> getPostsByUserId(@PathVariable(name = "id") Long id) {
+        User user = userRepository.findById(id).get();
+        List<Job> jobs = jobRepository.findAllByUser(user);
+        return jobs.stream().map(commonService::mapJobToJobResponse).collect(Collectors.toList());
+    }
 }
