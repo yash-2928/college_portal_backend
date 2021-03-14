@@ -1,6 +1,5 @@
 package demo.login.data;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,15 +31,10 @@ public class Report {
     public Report() {
     }
 
-    public Report(User user2, Post post2, Long reportId2) {
-	}
-
-	public Long getReportId() {
-        return reportId;
-    }
-
-    public void setReportId(Long reportId) {
-        this.reportId = reportId;
+    public Report(User user, Post post, String message) {
+        this.user = user;
+        this.post = post;
+        this.message = message;
     }
 
     public String getMessage() {
@@ -65,6 +59,14 @@ public class Report {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public Long getReportId() {
+        return reportId;
+    }
+
+    public void setReportId(Long reportId) {
+        this.reportId = reportId;
     }
 
 }

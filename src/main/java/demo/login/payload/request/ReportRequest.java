@@ -1,10 +1,14 @@
 package demo.login.payload.request;
 
+import javax.validation.constraints.NotNull;
+
 public class ReportRequest {
-    
+
+    @NotNull
     private Long userId;
+    @NotNull
     private Long postId;
-    private Long reportId;
+    private String message;
 
     public Long getUserId() {
         return userId;
@@ -22,12 +26,12 @@ public class ReportRequest {
         this.postId = postId;
     }
 
-    public Long getReportId() {
-        return reportId;
+    public String getMessage() {
+        return message;
     }
 
-    public void setReportId(Long reportId) {
-        this.reportId = reportId;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
 }

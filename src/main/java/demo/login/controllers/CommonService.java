@@ -4,9 +4,11 @@ import org.springframework.stereotype.Component;
 
 import demo.login.data.Job;
 import demo.login.data.Post;
+import demo.login.data.Report;
 import demo.login.data.User;
 import demo.login.payload.response.JobResponse;
 import demo.login.payload.response.PostResponse;
+import demo.login.payload.response.ReportResponse;
 import demo.login.payload.response.UserResponse;
 
 @Component
@@ -56,6 +58,15 @@ public class CommonService {
         jobResponse.setComments(job.getComments());
         jobResponse.setFileUrl(job.getFileUrl());
         return jobResponse;
+    }
+
+    public ReportResponse mapReportToReportResponse(Report report) {
+        ReportResponse reportResponse = new ReportResponse();
+        reportResponse.setReportId(report.getReportId());
+        reportResponse.setMessage(report.getMessage());
+        reportResponse.setUser(mapUserToUserResponse(report.getUser()));
+        reportResponse.setPost(mapPostToPostResponse(report.getPost()));
+        return reportResponse;
     }
 
 }

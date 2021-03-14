@@ -1,6 +1,9 @@
 package demo.login.payload.request;
 
+import javax.validation.constraints.NotNull;
+
 public class PassworedUpdateRequest {
+    @NotNull
     private Long userId;
     private String currentPassword;
     private String newPassword;

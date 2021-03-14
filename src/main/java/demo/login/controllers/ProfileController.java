@@ -69,13 +69,16 @@ public class ProfileController {
     }
 
     @PutMapping("/updatePassword")
-    public ResponseEntity<String> updatePassword(PassworedUpdateRequest passworedUpdateRequest) throws Exception {
+    public ResponseEntity<String> updatePassword(@Valid @RequestBody PassworedUpdateRequest passworedUpdateRequest)
+            throws Exception {
         Long userId = passworedUpdateRequest.getUserId();
         User user = userRepository.findById(userId).orElseThrow(() -> new Exception("User not found"));
-        if (!user.getPassword().equals(encoder.encode(passworedUpdateRequest.getCurrentPassword()))) {
+        Boolean matched = encoder.matches(passworedUpdateRequest.getCurrentPassword(), user.getPassword());
+        if (!matched) {
             throw new Exception("Incorrect Password");
         }
         user.setPassword(encoder.encode(passworedUpdateRequest.getNewPassword()));
+        userRepository.save(user);
         return ResponseEntity.ok("Password updated successfully");
     }
 
