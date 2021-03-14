@@ -15,6 +15,9 @@ public class SignupRequest {
     private Long phoneNumber;
     private String firstname;
     private String lastname;
+    private String course;
+    private String branch;
+    private String passoutYear;
     private String gender;
     private Date dateOfBirth;
     private Set<String> role;
@@ -93,4 +96,30 @@ public class SignupRequest {
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    public String getPassoutYear() {
+        return passoutYear;
+    }
+
+    public void setPassoutYear(String passoutYear) {
+        this.passoutYear = passoutYear;
+    }
+
+    
 }

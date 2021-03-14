@@ -84,6 +84,9 @@ public class AuthController {
 		user.setPhoneNumber(signupRequest.getPhoneNumber());
 		user.setFirstname(signupRequest.getFirstname());
 		user.setLastname(signupRequest.getLastname());
+		user.setCourse(signupRequest.getCourse());
+		user.setBranch(signupRequest.getBranch());
+		user.setPassoutYear(signupRequest.getPassoutYear());
 		user.setDateOfBirth(signupRequest.getDateOfBirth());
 		user.setGender(signupRequest.getGender());
 		user.setPassword(encoder.encode(signupRequest.getPassword()));

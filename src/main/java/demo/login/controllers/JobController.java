@@ -43,16 +43,6 @@ public class JobController {
     @Autowired
     CommonService commonService;
 
-    // @PostMapping("/post")
-    // public ResponseEntity<String> uplaodPost(@RequestBody PostRequest
-    // postRequest) throws IOException {
-    // User user = userRepository.findById(postRequest.getUserId()).get();
-    // Post post = new Post(user, postRequest.getPostTitle(),
-    // postRequest.getContent(), postRequest.getPostType());
-    // postRepository.save(post);
-    // return ResponseEntity.status(HttpStatus.CREATED).build();
-    // }
-
     @PostMapping("/job")
     public ResponseEntity<String> testUpload(@RequestParam("userId") Long userId,
             @RequestParam("jobTitle") String jobTitle, @RequestParam("jobContent") String jobContent,
