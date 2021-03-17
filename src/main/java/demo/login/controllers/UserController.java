@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import demo.login.data.ERole;
 import demo.login.data.Role;
-import demo.login.data.User;
 import demo.login.payload.response.UserResponse;
 import demo.login.repository.RoleRepository;
 import demo.login.repository.UserRepository;
@@ -41,15 +40,6 @@ public class UserController {
                 .collect(Collectors.toSet());
         return userRepository.findAllByRolesIn(roles).stream().map(commonService::mapUserToUserResponse)
                 .collect(Collectors.toList());
-    }
-
-    @GetMapping("/user/{id}")
-    public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            return ResponseEntity.ok(commonService.mapUserToUserResponse(userOptional.get()));
-        }
-        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/users/{id}")
