@@ -7,17 +7,24 @@ import demo.login.payload.response.MessageResponse;
 
 import java.util.*;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import demo.login.repository.RoleRepository;
@@ -68,8 +75,8 @@ public class AuthController {
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<MessageResponse> registerUser(@RequestBody SignupRequest signupRequest) {
-		if (userRepository.existsByEnrollmentNo(signupRequest.getEnrollmentNo())) {
+	public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
+		if (userRepository.existsByEnrollmentNo(Long.parseLong(signupRequest.getEnrollmentNo()))) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: EnrollmentNo is already taken!"));
 		}
 
@@ -80,8 +87,8 @@ public class AuthController {
 		// Create new user's account
 		User user = new User();
 		user.setEmail(signupRequest.getEmail());
-		user.setEnrollmentNo(signupRequest.getEnrollmentNo());
-		user.setPhoneNumber(signupRequest.getPhoneNumber());
+		user.setEnrollmentNo(Long.parseLong(signupRequest.getEnrollmentNo()));
+		user.setPhoneNumber(Long.parseLong(signupRequest.getPhoneNumber()));
 		user.setFirstname(signupRequest.getFirstname());
 		user.setLastname(signupRequest.getLastname());
 		user.setCourse(signupRequest.getCourse());
@@ -109,5 +116,17 @@ public class AuthController {
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User regisered successfully"));
+	}
+
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+		Map<String, String> errors = new HashMap<>();
+		ex.getBindingResult().getAllErrors().forEach((error) -> {
+			String fieldName = ((FieldError) error).getField();
+			String errorMessage = error.getDefaultMessage();
+			errors.put(fieldName, errorMessage);
+		});
+		return errors;
 	}
 }

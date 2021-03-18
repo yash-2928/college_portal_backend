@@ -1,28 +1,39 @@
 package demo.login.payload.request;
 
 import java.util.Date;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import java.util.*;
-
-
-import org.springframework.lang.NonNull;
 
 public class SignupRequest {
 
-    @NonNull
+    @NotNull
+    @Email
     private String email;
 
-    private Long enrollmentNo;
-    private Long phoneNumber;
+    @NotNull
+    @Pattern(regexp = "^[0-9]{2}024[0-9]{7}$")
+    private String enrollmentNo;
+
+    @Size(min = 10, max = 10, message = "Phone number should be 10 characters")
+    private String phoneNumber;
     private String firstname;
     private String lastname;
     private String course;
     private String branch;
     private String passoutYear;
     private String gender;
+
+    @NotNull
     private Date dateOfBirth;
     private Set<String> role;
 
-    @NonNull
+    @NotNull
+    @Size(min = 8, max = 16, message = "Password should be between 8 to 16 characters")
     private String password;
 
     public String getEmail() {
@@ -33,19 +44,19 @@ public class SignupRequest {
         this.email = email;
     }
 
-    public Long getEnrollmentNo() {
+    public String getEnrollmentNo() {
         return enrollmentNo;
     }
 
-    public void setEnrollmentNo(Long enrollmentNo) {
+    public void setEnrollmentNo(String enrollmentNo) {
         this.enrollmentNo = enrollmentNo;
     }
 
-    public Long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -69,7 +80,7 @@ public class SignupRequest {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) throws Exception {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -121,5 +132,4 @@ public class SignupRequest {
         this.passoutYear = passoutYear;
     }
 
-    
 }
