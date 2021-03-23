@@ -28,12 +28,23 @@ public class Report {
     @JsonIgnore
     private Post post;
 
+    @ManyToOne
+    @JoinColumn(name = "job_id")
+    @JsonIgnore
+    private Job job;
+
     public Report() {
     }
 
     public Report(User user, Post post, String message) {
         this.user = user;
         this.post = post;
+        this.message = message;
+    }
+
+    public Report(User user, Job job, String message) {
+        this.user = user;
+        this.job = job;
         this.message = message;
     }
 
@@ -69,4 +80,13 @@ public class Report {
         this.reportId = reportId;
     }
 
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
+    
 }

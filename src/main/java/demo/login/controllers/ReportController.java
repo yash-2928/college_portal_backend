@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import demo.login.data.Post;
 import demo.login.data.Job;
-import demo.login.data.JobReport;
 import demo.login.data.Report;
 import demo.login.data.User;
 import demo.login.payload.request.JobReportRequest;
@@ -51,7 +50,7 @@ public class ReportController {
     @Autowired
     CommonService commonService;
 
-    @PostMapping("post/report")
+    @PostMapping("/post/report")
     public ResponseEntity<MessageResponse> reportPost(@Valid @RequestBody ReportRequest reportRequest) {
         User user = userRepository.findById(reportRequest.getUserId()).get();
         Post post = postRepository.findById(reportRequest.getPostId()).get();
@@ -60,12 +59,12 @@ public class ReportController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PostMapping("job/report")
+    @PostMapping("/job/report")
     public ResponseEntity<MessageResponse> reportJob(@Valid @RequestBody JobReportRequest jobReportRequest) {
         User user = userRepository.findById(jobReportRequest.getUserId()).get();
         Job job = jobRepository.findById(jobReportRequest.getJobId()).get();
-        JobReport jobReport = new JobReport(user, job, jobReportRequest.getMessage());
-        reportRepository.save(jobReport);
+        Report report = new Report(user, job, jobReportRequest.getMessage());
+        reportRepository.save(report);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

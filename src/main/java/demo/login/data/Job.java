@@ -35,10 +35,10 @@ public class Job {
     private Date jobDate;
     private Boolean reported;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "job")
     private List<Report> reports;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "job")
     private List<Comment> comments;
 
     public Job() {

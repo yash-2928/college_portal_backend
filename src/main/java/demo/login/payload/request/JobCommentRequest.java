@@ -1,14 +1,11 @@
 package demo.login.payload.request;
 
-import javax.validation.constraints.NotNull;
-
-public class JobReportRequest {
+public class JobCommentRequest {
     
-    @NotNull
     private Long userId;
-    @NotNull
     private Long jobId;
-    private String message;
+    private String commentContent;
+
 
     public Long getUserId() {
         return userId;
@@ -26,11 +23,11 @@ public class JobReportRequest {
         this.jobId = jobId;
     }
 
-    public String getMessage() {
-        return message;
+    public String getCommentContent() {
+        return commentContent;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    public void setCommentContent(String commentContent) {
+        this.commentContent = commentContent;
+    } 
 }

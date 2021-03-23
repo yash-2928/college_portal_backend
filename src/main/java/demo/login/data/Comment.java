@@ -20,7 +20,6 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long commentId;
-    private Long jobId;
     private String commentContent;
     private Date commentDate;
 
@@ -28,6 +27,11 @@ public class Comment {
     @JoinColumn(name = "post_id")
     @JsonIgnore
     private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "job_id")
+    @JsonIgnore
+    private Job job;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -43,6 +47,13 @@ public class Comment {
         this.commentDate = Date.from(Instant.now());
     }
 
+    public Comment(User user, Job job, String commentContent) {
+        this.user = user;
+        this.job = job;
+        this.commentContent = commentContent;
+        this.commentDate = Date.from(Instant.now());
+    }
+
     public Long getCommentId() {
         return commentId;
     }
@@ -51,13 +62,6 @@ public class Comment {
         this.commentId = commentId;
     }
 
-    public Long getJobId() {
-        return jobId;
-    }
-
-    public void setJobId(Long jobId) {
-        this.jobId = jobId;
-    }
 
     public String getCommentContent() {
         return commentContent;
@@ -90,4 +94,14 @@ public class Comment {
     public void setCommentDate(Date commentDate) {
         this.commentDate = commentDate;
     }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
+    
 }
