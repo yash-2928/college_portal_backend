@@ -28,7 +28,6 @@ public class Post {
 
     @Column(nullable = true)
     private String fileUrl;
-    private String postTitle;
     private String postType;
     private String content;
     private Date postDate;
@@ -43,9 +42,8 @@ public class Post {
     public Post() {
     }
 
-    public Post(User user, String postTitle, String content, String postType, String fileUrl) {
+    public Post(User user, String content, String postType, String fileUrl) {
         this.user = user;
-        this.postTitle = postTitle;
         this.content = content;
         this.postType = postType;
         this.fileUrl = fileUrl;
@@ -59,14 +57,6 @@ public class Post {
 
     public void setPostId(Long postId) {
         this.postId = postId;
-    }
-
-    public String getPostTitle() {
-        return postTitle;
-    }
-
-    public void setPostTitle(String postTitle) {
-        this.postTitle = postTitle;
     }
 
     public String getPostType() {

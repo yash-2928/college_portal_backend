@@ -44,13 +44,13 @@ public class PostController {
 
     @PostMapping("/post")
     public ResponseEntity<String> testUpload(@RequestParam("userId") Long userId,
-            @RequestParam("postTitle") String postTitle, @RequestParam("postContent") String postContent,
+             @RequestParam("postContent") String postContent,
             @RequestParam(name = "file", required = false) MultipartFile file) {
         try {
             String fileType = file == null ? null : file.getContentType();
             String fileUrl = blobStorageRepository.uploadFile("postdocuments", file);
             User user = userRepository.findById(userId).get();
-            Post post = new Post(user, postTitle, postContent, fileType, fileUrl);
+            Post post = new Post(user, postContent, fileType, fileUrl);
             postRepository.save(post);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (IOException | InvalidKeyException e) {

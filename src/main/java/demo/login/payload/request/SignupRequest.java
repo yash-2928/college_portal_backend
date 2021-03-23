@@ -16,7 +16,7 @@ public class SignupRequest {
     private String email;
 
     @NotNull
-    @Pattern(regexp = "^[0-9]{2}024[0-9]{7}$")
+    @Pattern(regexp = "^[0-9]{2}024[0-9]{7}$", message = "Please enter valid enrollment number!!")
     private String enrollmentNo;
 
     @Size(min = 10, max = 10, message = "Phone number should be 10 characters")

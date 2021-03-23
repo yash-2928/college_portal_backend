@@ -11,4 +11,6 @@ import demo.login.data.User;
 @Repository
 public interface JobRepository extends JpaRepository<Job, Long> {
     public List<Job> findAllByUser(User user);
+    
+
 }

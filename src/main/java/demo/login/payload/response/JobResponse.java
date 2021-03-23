@@ -8,8 +8,6 @@ import demo.login.data.Comment;
 public class JobResponse {
     private Long jobId;
     private UserResponse user;
-    private String jobTitle;
-    private String link;
     private String companyName;
     private String content;
     private Date jobDate;
@@ -31,22 +29,6 @@ public class JobResponse {
 
     public void setUser(UserResponse user) {
         this.user = user;
-    }
-
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
     }
 
     public String getCompanyName() {

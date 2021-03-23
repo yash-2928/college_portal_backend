@@ -37,7 +37,6 @@ public class CommonService {
         postResponse.setContent(post.getContent());
         postResponse.setPostDate(post.getPostDate());
         postResponse.setUser(this.mapUserToUserResponse(post.getUser()));
-        postResponse.setPostTitle(post.getPostTitle());
         postResponse.setPostType(post.getPostType());
         postResponse.setReported(post.getReported());
         postResponse.setComments(post.getComments());
@@ -51,8 +50,6 @@ public class CommonService {
         jobResponse.setContent(job.getContent());
         jobResponse.setJobDate(job.getJobDate());
         jobResponse.setUser(this.mapUserToUserResponse(job.getUser()));
-        jobResponse.setJobTitle(job.getJobTitle());
-        jobResponse.setLink(job.getLink());
         jobResponse.setCompanyName(job.getCompanyName());
         jobResponse.setReported(job.getReported());
         jobResponse.setComments(job.getComments());

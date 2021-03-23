@@ -28,9 +28,7 @@ public class Job {
 
     @Column(nullable = true)
     private String fileUrl;
-    private String link;
     private String companyName;
-    private String jobTitle;
     private String content;
     private String postType;
 
@@ -46,12 +44,10 @@ public class Job {
     public Job() {
     }
 
-	public Job(User user, String jobTitle, String content, String link, String companyName, String postType,
+	public Job(User user, String content, String companyName, String postType,
 			String fileUrl) {
                 this.user = user;
-                this.jobTitle = jobTitle;
                 this.content = content;
-                this.link = link;
                 this.companyName = companyName;
                 this.postType = postType;
                 this.fileUrl = fileUrl;
@@ -81,14 +77,6 @@ public class Job {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
-    }
-
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
     }
 
     public String getContent() {
@@ -121,14 +109,6 @@ public class Job {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
     }
 
     public String getCompanyName() {

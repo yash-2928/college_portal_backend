@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import demo.login.data.Post;
+import demo.login.data.Job;
+import demo.login.data.JobReport;
 import demo.login.data.Report;
 import demo.login.data.User;
+import demo.login.payload.request.JobReportRequest;
 import demo.login.payload.request.ReportRequest;
 import demo.login.payload.response.MessageResponse;
 import demo.login.payload.response.ReportResponse;
 import demo.login.repository.PostRepository;
+import demo.login.repository.JobRepository;
 import demo.login.repository.ReportRepository;
 import demo.login.repository.UserRepository;
 
@@ -42,9 +46,12 @@ public class ReportController {
     PostRepository postRepository;
 
     @Autowired
+    JobRepository jobRepository;
+
+    @Autowired
     CommonService commonService;
 
-    @PostMapping("/report")
+    @PostMapping("post/report")
     public ResponseEntity<MessageResponse> reportPost(@Valid @RequestBody ReportRequest reportRequest) {
         User user = userRepository.findById(reportRequest.getUserId()).get();
         Post post = postRepository.findById(reportRequest.getPostId()).get();
@@ -53,11 +60,26 @@ public class ReportController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PostMapping("job/report")
+    public ResponseEntity<MessageResponse> reportJob(@Valid @RequestBody JobReportRequest jobReportRequest) {
+        User user = userRepository.findById(jobReportRequest.getUserId()).get();
+        Job job = jobRepository.findById(jobReportRequest.getJobId()).get();
+        JobReport jobReport = new JobReport(user, job, jobReportRequest.getMessage());
+        reportRepository.save(jobReport);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
     @GetMapping("/reports")
     public List<ReportResponse> getReports() {
         return reportRepository.findAll().stream().map(commonService::mapReportToReportResponse)
                 .collect(Collectors.toList());
     }
+
+    /*@GetMapping("/jobreports")
+    public List<JobReportResponse> getdemo.login.payload.response.MessageResponse;JobReports() {
+        return JobReportRepository.findAll().stream().map(commonService::mapReportToReportResponse)
+                .collect(Collectors.toList());
+    }*/
 
     @DeleteMapping("/report/{id}")
     public ResponseEntity<String> deleteReport(@PathVariable Long id) {

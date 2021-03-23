@@ -8,7 +8,6 @@ import demo.login.data.Comment;
 public class PostResponse {
     private Long postId;
     private UserResponse user;
-    private String postTitle;
     private String postType;
     private String content;
     private Date postDate;
@@ -22,14 +21,6 @@ public class PostResponse {
 
     public void setPostId(Long postId) {
         this.postId = postId;
-    }
-
-    public String getPostTitle() {
-        return postTitle;
-    }
-
-    public void setPostTitle(String postTitle) {
-        this.postTitle = postTitle;
     }
 
     public String getPostType() {

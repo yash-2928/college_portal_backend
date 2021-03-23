@@ -4,11 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import demo.login.data.JobReport;
-import demo.login.data.Report;
 
 @Repository
-public interface ReportRepository extends JpaRepository<Report,Long> {
-
-    void save(JobReport jobReport);
+public interface JobReportRepository extends JpaRepository<JobReport, Long>{
     
 }

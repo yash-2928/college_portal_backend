@@ -5,17 +5,8 @@ public class PostRequest {
     private Long userId;
 
     private String photos;
-    private String postTitle;
     private String postType;
     private String content;
-
-    public String getPostTitle() {
-        return postTitle;
-    }
-
-    public void setPostTitle(String postTitle) {
-        this.postTitle = postTitle;
-    }
 
     public String getContent() {
         return content;

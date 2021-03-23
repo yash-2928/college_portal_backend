@@ -44,15 +44,15 @@ public class JobController {
     CommonService commonService;
 
     @PostMapping("/job")
-    public ResponseEntity<String> testUpload(@RequestParam("userId") Long userId,
-            @RequestParam("jobTitle") String jobTitle, @RequestParam("jobContent") String jobContent,
-            @RequestParam("link") String link, @RequestParam("companyName") String companyName,
+    public ResponseEntity<String> JobUpload(@RequestParam("userId") Long userId,
+            @RequestParam("jobContent") String jobContent,
+            @RequestParam("companyName") String companyName,
             @RequestParam(name = "file", required = false) MultipartFile file) {
         try {
             String fileType = file == null ? null : file.getContentType();
             String fileUrl = blobStorageRepository.uploadFile("postdocuments", file);
             User user = userRepository.findById(userId).get();
-            Job job = new Job(user, jobTitle, jobContent, link, companyName, fileType, fileUrl);
+            Job job = new Job(user, jobContent, companyName, fileType, fileUrl);
             jobRepository.save(job);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (IOException | InvalidKeyException e) {
