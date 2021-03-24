@@ -4,6 +4,7 @@ public class CommentRequest {
 
     private Long userId;
     private Long postId;
+    private Long jobId;
     private String commentContent;
 
     public String getCommentContent() {
@@ -28,6 +29,14 @@ public class CommentRequest {
 
     public void setPostId(Long postId) {
         this.postId = postId;
+    }
+
+    public Long getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(Long jobId) {
+        this.jobId = jobId;
     }
 
 }

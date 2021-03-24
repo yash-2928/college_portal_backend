@@ -40,20 +40,20 @@ public class CommentController {
     @Autowired
     JobRepository jobRepository;
 
-    @PostMapping("/post/comment")
+    @PostMapping("/comment")
     public ResponseEntity<MessageResponse> postComment(@RequestBody CommentRequest commentRequest) {
         User user = userRepository.findById(commentRequest.getUserId()).get();
-        Post post = postRepository.findById(commentRequest.getPostId()).get();
-        Comment comment = new Comment(user, post, commentRequest.getCommentContent());
-        commentRepository.save(comment);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    @PostMapping("/job/comment")
-    public ResponseEntity<MessageResponse> jobComment(@RequestBody JobCommentRequest jobCommentRequest) {
-        User user = userRepository.findById(jobCommentRequest.getUserId()).get();
-        Job job = jobRepository.findById(jobCommentRequest.getJobId()).get();
-        Comment comment = new Comment(user, job, jobCommentRequest.getCommentContent());
+        Comment comment = new Comment();
+        comment.setUser(user);
+        if (commentRequest.getPostId() != null) {
+            Post post = postRepository.findById(commentRequest.getPostId()).get();
+            comment.setPost(post);
+        }
+        if (commentRequest.getJobId() != null) {
+            Job job = jobRepository.findById(commentRequest.getJobId()).get();
+            comment.setJob(job);
+        }
+        comment.setCommentContent(commentRequest.getCommentContent());
         commentRepository.save(comment);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -6,6 +6,7 @@ public class ReportResponse {
     private String message;
     private UserResponse user;
     private PostResponse post;
+    private JobResponse job;
 
     public Long getReportId() {
         return reportId;
@@ -37,6 +38,14 @@ public class ReportResponse {
 
     public void setPost(PostResponse post) {
         this.post = post;
+    }
+
+    public JobResponse getJob() {
+        return job;
+    }
+
+    public void setJob(JobResponse job) {
+        this.job = job;
     }
 
 }

@@ -1,7 +1,10 @@
 package demo.login.controllers;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import demo.login.data.Comment;
 import demo.login.data.Job;
 import demo.login.data.Post;
 import demo.login.data.Report;
@@ -10,6 +13,7 @@ import demo.login.payload.response.JobResponse;
 import demo.login.payload.response.PostResponse;
 import demo.login.payload.response.ReportResponse;
 import demo.login.payload.response.UserResponse;
+import demo.login.repository.ReportRepository;
 
 @Component
 public class CommonService {
@@ -39,7 +43,9 @@ public class CommonService {
         postResponse.setUser(this.mapUserToUserResponse(post.getUser()));
         postResponse.setPostType(post.getPostType());
         postResponse.setReported(post.getReported());
-        postResponse.setComments(post.getComments());
+        List<Comment> comments = post.getComments();
+        comments.sort((a, b) -> a.getCommentDate().compareTo(b.getCommentDate()));
+        postResponse.setComments(comments);
         postResponse.setFileUrl(post.getFileUrl());
         return postResponse;
     }
@@ -52,7 +58,9 @@ public class CommonService {
         jobResponse.setUser(this.mapUserToUserResponse(job.getUser()));
         jobResponse.setCompanyName(job.getCompanyName());
         jobResponse.setReported(job.getReported());
-        jobResponse.setComments(job.getComments());
+        List<Comment> comments = job.getComments();
+        comments.sort((a, b) -> a.getCommentDate().compareTo(b.getCommentDate()));
+        jobResponse.setComments(comments);
         jobResponse.setFileUrl(job.getFileUrl());
         return jobResponse;
     }
@@ -62,7 +70,10 @@ public class CommonService {
         reportResponse.setReportId(report.getReportId());
         reportResponse.setMessage(report.getMessage());
         reportResponse.setUser(mapUserToUserResponse(report.getUser()));
-        reportResponse.setPost(mapPostToPostResponse(report.getPost()));
+        if (report.getPost() != null)
+            reportResponse.setPost(mapPostToPostResponse(report.getPost()));
+        if (report.getJob() != null)
+            reportResponse.setJob(mapJobToJobResponse(report.getJob()));
         return reportResponse;
     }
 

@@ -33,21 +33,6 @@ public class Report {
     @JsonIgnore
     private Job job;
 
-    public Report() {
-    }
-
-    public Report(User user, Post post, String message) {
-        this.user = user;
-        this.post = post;
-        this.message = message;
-    }
-
-    public Report(User user, Job job, String message) {
-        this.user = user;
-        this.job = job;
-        this.message = message;
-    }
-
     public String getMessage() {
         return message;
     }
@@ -88,5 +73,4 @@ public class Report {
         this.job = job;
     }
 
-    
 }

@@ -6,8 +6,8 @@ public class ReportRequest {
 
     @NotNull
     private Long userId;
-    @NotNull
     private Long postId;
+    private Long jobId;
     private String message;
 
     public Long getUserId() {
@@ -32,6 +32,14 @@ public class ReportRequest {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Long getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(Long jobId) {
+        this.jobId = jobId;
     }
 
 }

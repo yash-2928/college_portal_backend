@@ -38,19 +38,6 @@ public class Comment {
     private User user;
 
     public Comment() {
-    }
-
-    public Comment(User user, Post post, String commentContent) {
-        this.user = user;
-        this.post = post;
-        this.commentContent = commentContent;
-        this.commentDate = Date.from(Instant.now());
-    }
-
-    public Comment(User user, Job job, String commentContent) {
-        this.user = user;
-        this.job = job;
-        this.commentContent = commentContent;
         this.commentDate = Date.from(Instant.now());
     }
 
@@ -61,7 +48,6 @@ public class Comment {
     public void setCommentId(Long commentId) {
         this.commentId = commentId;
     }
-
 
     public String getCommentContent() {
         return commentContent;
@@ -103,5 +89,4 @@ public class Comment {
         this.job = job;
     }
 
-    
 }
